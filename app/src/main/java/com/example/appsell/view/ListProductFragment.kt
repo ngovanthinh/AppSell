@@ -53,6 +53,9 @@ class ListProductFragment : Fragment() {
 
         allPost.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                products.clear()
+                orderList.clear()
+
                 for (postSnapshot in snapshot.children) {
                     val product: Product? = postSnapshot.getValue(Product::class.java)
                     product?.let {
@@ -78,6 +81,20 @@ class ListProductFragment : Fragment() {
                     orderList[position].count = count
 
                     adapter.notifyItemChanged(position)
+                }
+
+                adapter.setOnItemClickListener {
+                    val isManger = arguments?.getBoolean(HomeFragment.MANAGER) ?: false
+                    if (isManger) {
+                        val product = orderList[it].product
+                        val gson = Gson()
+                        val json = gson.toJson(product)
+
+                        val bundle = Bundle().apply {
+                            putString(DATA, json)
+                        }
+                        findNavController().navigate(R.id.action_listProductFragment_to_newProductFragment, bundle)
+                    }
                 }
             }
 
@@ -109,6 +126,7 @@ class ListProductFragment : Fragment() {
 
     companion object {
         const val CART: String = "cart_data"
+        const val DATA: String = "edit_data"
     }
 
 }

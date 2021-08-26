@@ -192,7 +192,7 @@
             </LinearLayout>
 
             <TextView
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/txt_user_name_title"
                 style="@style/TextLabel"
                 android:layout_width="wrap_content"
@@ -203,7 +203,7 @@
                 app:layout_constraintTop_toBottomOf="@id/layout_input_password_again" />
 
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/layout_user_name"
                 style="@style/InputForm"
                 android:layout_width="match_parent"
@@ -238,7 +238,7 @@
                 style="@style/TextSubmitPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/bg_button"
                 android:gravity="center"
                 android:text="@string/register"

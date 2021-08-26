@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -32,6 +33,7 @@ import kotlinx.android.synthetic.main.fragment_list_product.*
 
 class HomeFragment : Fragment() {
 
+    private var isManager: Boolean = false
     lateinit var adapter: SliderAdapter
     private val sliderItems: ArrayList<SliderItem> = ArrayList()
 
@@ -45,7 +47,6 @@ class HomeFragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
-
 
         sliderItems.add(SliderItem(R.drawable.img_1, ""))
         sliderItems.add(SliderItem(R.drawable.img_2, ""))
@@ -89,7 +90,10 @@ class HomeFragment : Fragment() {
         }
 
         btn_list_product.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_listProductFragment)
+            val bundle = Bundle().apply {
+                putBoolean(MANAGER, isManager)
+            }
+            findNavController().navigate(R.id.action_homeFragment_to_listProductFragment, bundle)
         }
 
         btnOpenCart.setOnClickListener {
@@ -117,13 +121,25 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        updateProfile()
+    }
+
+    companion object {
+        const val MANAGER: String = "is_manager"
+    }
+
+    private fun updateProfile (){
         val email: String = arguments?.getString(LoginFragment.EMAIL)!!
         val allPost = Firebase.database.reference.child("username").child(email)
 
         allPost.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val profile: Profile? = snapshot.getValue(Profile::class.java)
-                txt_user_name.text = profile?.userName
+                isManager = profile?.isManager ?: false
+                if (lytNewProduct != null) {
+                    lytNewProduct.isVisible = profile?.isManager!!
+                    txt_user_name.text = profile.userName
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {

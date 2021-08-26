@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.util.Util
@@ -18,8 +19,17 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
 
+    var isManager : Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val callBack: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                parentFragment?.findNavController()?.popBackStack()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(callBack)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,7 +55,7 @@ class ProfileFragment : Fragment() {
         val date = edt_date.text.toString().trim()
         val address = edt_address.text.toString().trim()
         val email: String = arguments?.getString(LoginFragment.EMAIL)!!
-        val profile = Profile(fullName, date, address)
+        val profile = Profile(fullName, date, address, isManager)
 
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
         val reference: DatabaseReference = database.reference
@@ -70,6 +80,7 @@ class ProfileFragment : Fragment() {
                 edt_full_name.setText(profile?.userName)
                 edt_date.setText(profile?.date)
                 edt_address.setText(profile?.address)
+                isManager = profile?.isManager!!
             }
 
             override fun onCancelled(error: DatabaseError) {

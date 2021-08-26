@@ -16,6 +16,7 @@ import com.example.appsell.base.Until
 import com.google.firebase.auth.FirebaseAuth
 import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.fragment_login.*
+import java.lang.Exception
 
 class LoginFragment : Fragment() {
 
@@ -65,7 +66,11 @@ class LoginFragment : Fragment() {
                         val bundle = Bundle().apply {
                             putString(EMAIL, email.replace(".", ""))
                         }
-                        findNavController().navigate(R.id.action_LoginFragment_to_homeFragment, bundle)
+                        try {
+                            findNavController().navigate(R.id.action_LoginFragment_to_homeFragment, bundle)
+                        } catch (e: Exception) {
+
+                        }
                     } else {
                         message(it.exception?.message ?: "Login fail")
                     }

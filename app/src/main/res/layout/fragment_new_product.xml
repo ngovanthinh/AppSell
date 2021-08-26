@@ -24,6 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/txt_header"
             style="@style/TextPrimaryBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,18 +80,41 @@
         android:inputType="textMultiLine"
         app:layout_constraintTop_toBottomOf="@id/edt_cost_product" />
 
-    <TextView
-        android:id="@+id/txt_create"
-        style="@style/TextSubmitPrimary"
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/edt_description_product"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:background="@drawable/bg_button"
-        android:gravity="center_horizontal"
-        android:text="@string/accept"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/edt_description_product" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/txt_delete"
+            style="@style/TextSubmitPrimary"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:background="@drawable/bg_button_remove"
+            android:gravity="center_horizontal"
+            android:text="Xóa"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/txt_create"
+            style="@style/TextSubmitPrimary"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:background="@drawable/bg_button"
+            android:gravity="center_horizontal"
+            android:text="@string/accept"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
