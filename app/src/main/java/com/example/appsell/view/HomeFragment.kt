@@ -30,10 +30,6 @@ import com.smarteist.autoimageslider.SliderView
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_list_product.*
 
-
-/**
- * Created by ThinhNV on 22/08/2021.
- */
 class HomeFragment : Fragment() {
 
     lateinit var adapter: SliderAdapter
@@ -43,10 +39,10 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    findNavController().popBackStack(R.id.LoginFragment, false)
-                }
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack(R.id.LoginFragment, false)
             }
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 
@@ -100,8 +96,13 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_cartFragment)
         }
 
-        btnOpenProfile.setOnClickListener{
-            findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
+        btnOpenProfile.setOnClickListener {
+            val email: String = arguments?.getString(LoginFragment.EMAIL)!!
+
+            val bundle = Bundle().apply {
+                putString(LoginFragment.EMAIL, email)
+            }
+            findNavController().navigate(R.id.action_homeFragment_to_profileFragment, bundle)
         }
 
     }
@@ -116,12 +117,13 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val allPost = Firebase.database.reference.child("username").child("email")
+        val email: String = arguments?.getString(LoginFragment.EMAIL)!!
+        val allPost = Firebase.database.reference.child("username").child(email)
 
         allPost.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val profile: Profile? = snapshot.getValue(Profile::class.java)
-                txt_user_name.text = profile?.email
+                txt_user_name.text = profile?.userName
             }
 
             override fun onCancelled(error: DatabaseError) {

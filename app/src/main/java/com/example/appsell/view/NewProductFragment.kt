@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.appsell.R
+import com.example.appsell.base.Until
 import com.example.appsell.model.Product
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -15,9 +16,6 @@ import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.fragment_new_product.*
 import java.util.*
 
-/**
- * Created by ThinhNV on 23/08/2021.
- */
 class NewProductFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +54,7 @@ class NewProductFragment : Fragment() {
         val description = edt_description_product.text.toString().trim()
 
         if (nameProduct.isEmpty() || cost.isEmpty() || description.isEmpty()) {
-            message("Vui lòng nhập đủ các thông tin")
+            Until.message("Vui lòng nhập đủ các thông tin", requireActivity())
         } else {
             val product = Product(nameProduct, cost.toLong(), description)
             val database: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -64,19 +62,19 @@ class NewProductFragment : Fragment() {
             reference.child("products").push().setValue(product)
                 .addOnSuccessListener {
                     findNavController().popBackStack()
-                    message("Thêm mới sản phẩm thành công")
+                    Until.message("Thêm mới sản phẩm thành công", requireActivity())
                 }
                 .addOnFailureListener {
-                    message(it.message ?: "Lỗi hệ thống vui lòng thử lại")
+                    Until.message(it.message ?: "Lỗi hệ thống vui lòng thử lại", requireActivity())
                 }
         }
     }
 
-    private fun message(message: String) {
-        Alerter.create(requireActivity())
-            .setText(message)
-            .setBackgroundColorRes(R.color.colorPrimary)
-            .show()
-    }
+//    private fun message(message: String) {
+//        Alerter.create(requireActivity())
+//            .setText(message)
+//            .setBackgroundColorRes(R.color.colorPrimary)
+//            .show()
+//    }
 
 }

@@ -8,9 +8,6 @@ import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import com.example.appsell.R
 
-/**
- * Created by ThinhNV on 24/08/2021.
- */
 class BaseDialog : DialogFragment() {
 
     override fun onStart() {

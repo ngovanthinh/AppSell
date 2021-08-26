@@ -20,9 +20,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_list_product.*
 
-/**
- * Created by ThinhNV on 23/08/2021.
- */
 class ListProductFragment : Fragment() {
 
     lateinit var adapter: ProductAdapter

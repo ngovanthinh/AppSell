@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.appsell.R
 import com.example.appsell.adapter.ProductAdapter
+import com.example.appsell.base.Until
 import com.example.appsell.model.Order
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -20,9 +21,6 @@ import kotlinx.android.synthetic.main.fragment_cart.btn_back
 import kotlinx.android.synthetic.main.fragment_cart.list
 import kotlinx.android.synthetic.main.fragment_list_product.*
 
-/**
- * Created by ThinhNV on 24/08/2021.
- */
 class CartFragment : Fragment() {
 
     lateinit var adapter: ProductAdapter
@@ -55,7 +53,7 @@ class CartFragment : Fragment() {
         val typeToken = object : TypeToken<ArrayList<Order>>() {}.type
         val topic = gson.fromJson<ArrayList<Order>>(json, typeToken)
 
-        var totalCost : Int =0
+        var totalCost: Int = 0
         topic.forEach {
             totalCost += it.count * it.product?.cost?.toInt()!!
         }
@@ -82,10 +80,7 @@ class CartFragment : Fragment() {
             dialog.show(childFragmentManager, this.tag)
 
             dialog.setOnItemClickListener {
-                Alerter.create(requireActivity())
-                    .setText(requireContext().getString(R.string.payment_message))
-                    .setBackgroundColorRes(R.color.colorPrimary)
-                    .show()
+                Until.message(requireContext().getString(R.string.payment_message), requireActivity())
                 findNavController().popBackStack(R.id.homeFragment, false)
             }
         }

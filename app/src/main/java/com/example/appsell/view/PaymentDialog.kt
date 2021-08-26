@@ -7,9 +7,6 @@ import androidx.fragment.app.DialogFragment
 import com.example.appsell.R
 import kotlinx.android.synthetic.main.dialog_payment.*
 
-/**
- * Created by ThinhNV on 24/08/2021.
- */
 class PaymentDialog : DialogFragment() {
 
     private lateinit var onPayment: () -> Unit

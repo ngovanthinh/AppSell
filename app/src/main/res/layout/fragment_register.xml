@@ -132,6 +132,7 @@
                     android:singleLine="true" />
 
                 <ImageView
+                    android:id="@+id/img_eye_register"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="16dp"
@@ -181,6 +182,7 @@
                     android:singleLine="true" />
 
                 <ImageView
+                    android:id="@+id/img_eye_again"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="16dp"
