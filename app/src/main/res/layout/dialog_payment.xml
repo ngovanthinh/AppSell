@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TextPrimaryMedium"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:gravity="center"
+        android:text="@string/payment_function"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btnClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:background="?attr/actionBarItemBackground"
+        android:contentDescription="@null"
+        android:padding="@dimen/_4sdp"
+        android:src="@drawable/ic_close"
+        app:layout_constraintBottom_toBottomOf="@id/title"
+        app:layout_constraintEnd_toEndOf="@id/title"
+        app:layout_constraintTop_toTopOf="@id/title" />
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/btnCash"
+        style="@style/TextPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:buttonTint="@color/colorPrimary"
+        android:checked="true"
+        android:text="@string/cash"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/btnDelivery"
+        style="@style/TextPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:buttonTint="@color/colorPrimary"
+        android:checked="false"
+        android:text="@string/payment_on_delivery"
+        app:layout_constraintTop_toBottomOf="@id/btnCash" />
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/btnTransfer"
+        style="@style/TextPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:buttonTint="@color/colorPrimary"
+        android:checked="false"
+        android:text="@string/transfer"
+        app:layout_constraintTop_toBottomOf="@id/btnDelivery" />
+
+    <TextView
+        android:id="@+id/txtPaymentSuccess"
+        style="@style/TextSubmitPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:background="@drawable/bg_button"
+        android:gravity="center"
+        android:paddingStart="@dimen/_32sdp"
+        android:paddingEnd="@dimen/_32sdp"
+        android:text="@string/payment"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnTransfer"
+        tools:layout_editor_absoluteX="0dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

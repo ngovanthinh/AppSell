@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:background="?android:attr/actionBarItemBackground"
+            android:contentDescription="@null"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/TextPrimaryBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_product"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <EditText
+        android:id="@+id/edt_name_product"
+        style="@style/InputForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:autofillHints="true"
+        android:hint="@string/hint_name_product"
+        android:inputType="text"
+        android:singleLine="true"
+        app:layout_constraintTop_toBottomOf="@id/layout_header" />
+
+    <EditText
+        android:id="@+id/edt_cost_product"
+        style="@style/InputForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:autofillHints="true"
+        android:hint="@string/hint_cost_product"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        app:layout_constraintTop_toBottomOf="@id/edt_name_product" />
+
+
+    <EditText
+        android:id="@+id/edt_description_product"
+        style="@style/InputForm"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_120sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:autofillHints="true"
+        android:gravity="top"
+        android:hint="@string/hint_description_product"
+        android:inputType="textMultiLine"
+        app:layout_constraintTop_toBottomOf="@id/edt_cost_product" />
+
+    <TextView
+        android:id="@+id/txt_create"
+        style="@style/TextSubmitPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:background="@drawable/bg_button"
+        android:gravity="center_horizontal"
+        android:text="@string/accept"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/edt_description_product" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

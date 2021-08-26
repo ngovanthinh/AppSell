@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Nông Sản Việt</string>
+    <string name="phone">Email</string>
+    <string name="user_name">Tên khách hàng</string>
+    <string name="password">Mật khẩu</string>
+    <string name="password_again">Nhập lại mật khẩu</string>
+    <string name="hint_input_phone">Email của bạn</string>
+    <string name="hint_user_name">Họ và tên khách hàng sử dụng</string>
+    <string name="hint_input_password">Nhập mật khẩu</string>
+    <string name="txt_login">Đăng nhập</string>
+    <string name="register">Đăng ký</string>
+    <string name="new_product">Thêm sản phẩm</string>
+    <string name="list_products">Danh sách sản phẩm</string>
+    <string name="register_now">Đăng ký ngay</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+    <string name="you_are_have_not_account">Bạn chưa có tài khoản? </string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="list_product">Danh sách</string>
+    <string name="add_product">Thêm sản phẩm</string>
+    <string name="account">Tài khoản</string>
+    <string name="cart">Giỏ hàng</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="hello">Xin chào!</string>
+    <string name="message_call">Tổng đài hỗ trợ chăm sóc khách hàng 24/7 luôn sẵn sàng</string>
+    <string name="call_now">Gọi ngay</string>
+    <string name="hotline">Hotline:</string>
+    <string name="phone_number">1900 8198</string>
+    <string name="hint_name_product">Tên sản phẩm</string>
+    <string name="hint_cost_product">Gián bán sản phẩm</string>
+    <string name="hint_description_product">Mô tả sản phẩm</string>
+    <string name="accept">Xác nhận</string>
+    <string name="search">Tìm</string>
+    <string name="view_cart">Xem đơn hàng</string>
+    <string name="payment">Thanh toán</string>
+    <string name="payment_function">Chọn thanh toán</string>
+    <string name="cash">Tiền mặt</string>
+    <string name="payment_on_delivery">Thanh toán khi nhận hàng</string>
+    <string name="transfer">Chuyển khoản</string>
+    <string name="payment_message">Thanh toán thành công</string>
+
+</resources>
