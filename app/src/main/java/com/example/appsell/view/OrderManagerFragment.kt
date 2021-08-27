@@ -52,11 +52,7 @@ class OrderManagerFragment : Fragment() {
                         purchases.add(it)
                     }
                 }
-//
-//                products.forEach {
-//                    orderList.add(Order(it, 0))
-//                }
-//
+
                 adapter = PurchaseAdapter(requireContext())
                 list.adapter = adapter
                 list.addItemDecoration(
@@ -69,26 +65,6 @@ class OrderManagerFragment : Fragment() {
                     it.date
                 }
                 adapter.submitList(purchases, true)
-//
-//                adapter.updateCountListener { count, position ->
-//                    orderList[position].count = count
-//
-//                    adapter.notifyItemChanged(position)
-//                }
-//
-//                adapter.setOnItemClickListener {
-//                    val isManger = arguments?.getBoolean(HomeFragment.MANAGER) ?: false
-//                    if (isManger) {
-//                        val product = orderList[it].product
-//                        val gson = Gson()
-//                        val json = gson.toJson(product)
-//
-//                        val bundle = Bundle().apply {
-//                            putString(ListProductFragment.DATA, json)
-//                        }
-//                        findNavController().navigate(R.id.action_listProductFragment_to_newProductFragment, bundle)
-//                    }
-//                }
             }
 
             override fun onCancelled(error: DatabaseError) {
