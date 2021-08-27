@@ -6,76 +6,84 @@
     android:orientation="horizontal"
     android:padding="@dimen/_5sdp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/lytMarketingApp"
-        style="@style/Widget.MaterialComponents.CardView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/_8sdp"
-        app:cardCornerRadius="@dimen/_2sdp"
-        app:cardElevation="@dimen/_4sdp">
+    <LinearLayout
+        android:id="@+id/view_main"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/lytMarketingApp"
+            style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/_8sdp"
+            app:cardCornerRadius="@dimen/_2sdp"
+            app:cardElevation="@dimen/_4sdp">
 
-            <ImageView
-                android:id="@+id/imgPart"
-                android:layout_width="@dimen/_32sdp"
-                android:layout_height="@dimen/_32sdp"
-                android:background="@android:color/white"
-                android:contentDescription="@null" />
-
-            <TextView
-                android:id="@+id/txtPartShort"
-                style="@style/TextPrimary"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@android:color/white" />
+                android:gravity="center">
 
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/imgPart"
+                    android:layout_width="@dimen/_32sdp"
+                    android:layout_height="@dimen/_32sdp"
+                    android:background="@android:color/white"
+                    android:contentDescription="@null" />
 
-    </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/txtPartShort"
+                    style="@style/TextPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@android:color/white" />
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+            </RelativeLayout>
 
-        <TextView
-            android:id="@+id/txtProductName"
-            style="@style/TextPrimaryMedium"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:text="a"
-            android:maxLines="1" />
+        </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/txtCost"
-            style="@style/TextPrimaryMedium"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="start"
-            android:text="a"
-            android:textColor="@color/colorPrimary" />
-
-        <TextView
-            android:id="@+id/txtDescription"
-            style="@style/TextPrimary"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:alpha="0.8"
-            android:text="a"
-            android:textColor="@color/textColorSecondary"
-            android:ellipsize="end"
-            android:maxLines="1"/>
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtProductName"
+                style="@style/TextPrimaryMedium"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:text="a"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/txtCost"
+                style="@style/TextPrimaryMedium"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:text="a"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/txtDescription"
+                style="@style/TextPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.8"
+                android:text="a"
+                android:textColor="@color/textColorSecondary"
+                android:ellipsize="end"
+                android:maxLines="1" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -105,7 +113,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:gravity="center_horizontal"
-            android:text="0"/>
+            android:text="0" />
 
         <ImageView
             android:layout_marginEnd="@dimen/_8sdp"

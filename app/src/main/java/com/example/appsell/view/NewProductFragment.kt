@@ -1,14 +1,19 @@
 package com.example.appsell.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.MenuRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.appsell.R
+import com.example.appsell.base.Constant
 import com.example.appsell.base.Until
 import com.example.appsell.model.Product
 import com.google.firebase.database.DatabaseReference
@@ -20,7 +25,9 @@ import java.util.*
 
 class NewProductFragment : Fragment() {
     private var product: Product? = null
+    private var type: String = Constant.PRODUCT_VEGETABLE
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val callBack: OnBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -42,8 +49,6 @@ class NewProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         val json = arguments?.getString(ListProductFragment.DATA)
 
         json?.apply {
@@ -59,6 +64,35 @@ class NewProductFragment : Fragment() {
             }
         }
 
+        if (product != null) {
+            type = product!!.type
+            val text = when (product!!.type) {
+                Constant.PRODUCT_VEGETABLE -> requireContext().getString(R.string.type_product) + " " + requireContext().getString(
+                    R.string.vegetable
+                )
+                Constant.PRODUCT_PACKAGED -> requireContext().getString(R.string.type_product) + " " + requireContext().getString(
+                    R.string.packaged_food
+                )
+                Constant.PRODUCT_MEAT -> requireContext().getString(R.string.type_product) + " " + requireContext().getString(
+                    R.string.fresh_meat
+                )
+                Constant.PRODUCT_DIFFERENT -> requireContext().getString(R.string.type_product) + " " + requireContext().getString(
+                    R.string.different
+                )
+                else -> {
+                    type = Constant.PRODUCT_VEGETABLE
+                    requireContext().getString(R.string.type_product) + " " + requireContext().getString(
+                        R.string.vegetable
+                    )
+                }
+            }
+            type_product.text = text
+
+        } else {
+            type_product.text =
+                requireContext().getString(R.string.type_product) + " " + requireContext().getString(R.string.vegetable)
+        }
+
         btn_back.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -68,7 +102,7 @@ class NewProductFragment : Fragment() {
         }
 
         txt_delete.setOnClickListener {
-            if (product!=null){
+            if (product != null) {
                 FirebaseDatabase.getInstance().reference.child("products").child(product!!.key).removeValue()
                     .addOnSuccessListener {
                         findNavController().popBackStack()
@@ -79,6 +113,10 @@ class NewProductFragment : Fragment() {
                     }
             }
 
+        }
+
+        type_product.setOnClickListener { v: View ->
+            showMenu(v, R.menu.menu)
         }
     }
 
@@ -95,7 +133,7 @@ class NewProductFragment : Fragment() {
             val reference: DatabaseReference = database.reference
 
             if (product != null) {
-                val productUpdate = Product(nameProduct, cost.toLong(), description, product!!.key)
+                val productUpdate = Product(nameProduct, cost.toLong(), description, product!!.key, type)
                 reference.child("products").child(productUpdate.key).setValue(productUpdate)
                     .addOnSuccessListener {
                         findNavController().popBackStack()
@@ -107,7 +145,7 @@ class NewProductFragment : Fragment() {
 
             } else {
                 val key = database.reference.push().key!!
-                val productCreate = Product(nameProduct, cost.toLong(), description, key)
+                val productCreate = Product(nameProduct, cost.toLong(), description, key, type)
                 reference.child("products").child(key).setValue(productCreate)
                     .addOnSuccessListener {
                         findNavController().popBackStack()
@@ -117,9 +155,44 @@ class NewProductFragment : Fragment() {
                         Until.message(it.message ?: "Lỗi hệ thống vui lòng thử lại", requireActivity())
                     }
             }
-
-
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showMenu(v: View, @MenuRes menuRes: Int) {
+        val popup = PopupMenu(requireContext(), v)
+        popup.menuInflater.inflate(menuRes, popup.menu)
+
+        popup.setOnMenuItemClickListener {
+            val text = when (it!!.itemId) {
+                R.id.header1 -> {
+                    type = Constant.PRODUCT_VEGETABLE
+                    requireContext().getString(R.string.type_product) + " " + requireContext().getString(R.string.vegetable)
+                }
+
+                R.id.header2 -> {
+                    type = Constant.PRODUCT_PACKAGED
+                    requireContext().getString(R.string.type_product) + " " + requireContext().getString(R.string.packaged_food)
+                }
+
+                R.id.header3 -> {
+                    type = Constant.PRODUCT_MEAT
+                    requireContext().getString(R.string.type_product) + " " + requireContext().getString(R.string.fresh_meat)
+                }
+
+                R.id.header4 -> {
+                    type = Constant.PRODUCT_DIFFERENT
+                    requireContext().getString(R.string.type_product) + " " + requireContext().getString(R.string.different)
+                }
+                else -> ""
+            }
+
+            type_product.text = text
+
+            true
+        }
+
+        popup.show()
     }
 
 }

@@ -10,15 +10,17 @@ import com.example.appsell.model.Order
 import com.example.appsell.model.Product
 import kotlinx.android.synthetic.main.item_product.view.*
 
-/**
- * Created by ThinhNV on 23/08/2021.
- */
-class ProductAdapter(context: Context,val isCart: Boolean) : BaseAdapter<Order, ProductAdapter.ViewHolder>(context) {
+class ProductAdapter(context: Context, val isCart: Boolean) : BaseAdapter<Order, ProductAdapter.ViewHolder>(context) {
 
     private lateinit var onUpdateCount: (count: Int, position: Int) -> Unit
+    private lateinit var onClickViewMain: (position: Int) -> Unit
 
     fun updateCountListener(onUpdateCount: (count: Int, position: Int) -> Unit) {
         this.onUpdateCount = onUpdateCount
+    }
+
+    fun onClickViewMainListener(onClickViewMain: (position: Int) -> Unit) {
+        this.onClickViewMain = onClickViewMain
     }
 
     override fun getItemViewId(viewType: Int): Int = R.layout.item_product
@@ -43,8 +45,8 @@ class ProductAdapter(context: Context,val isCart: Boolean) : BaseAdapter<Order, 
                 txt_count.text = "" + data.count
             }
 
-                itemView.img_increase.isVisible = !isCart
-                itemView.img_reduction.isVisible = !isCart
+            itemView.img_increase.isVisible = !isCart
+            itemView.img_reduction.isVisible = !isCart
 
             itemView.img_increase.setOnClickListener {
                 val count: Int = itemView.txt_count.text.toString().toInt()
@@ -56,6 +58,10 @@ class ProductAdapter(context: Context,val isCart: Boolean) : BaseAdapter<Order, 
                     val count: Int = itemView.txt_count.text.toString().toInt()
                     onUpdateCount.invoke(count - 1, position)
                 }
+            }
+
+            itemView.view_main.setOnClickListener {
+                onClickViewMain.invoke(position)
             }
         }
 

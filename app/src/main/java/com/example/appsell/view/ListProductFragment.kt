@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.appsell.R
 import com.example.appsell.adapter.ProductAdapter
-import com.example.appsell.base.Constant
 import com.example.appsell.model.Order
 import com.example.appsell.model.Product
+import com.example.appsell.viewmodel.MainViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -22,6 +23,7 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_list_product.*
 
 class ListProductFragment : Fragment() {
+    lateinit var viewModel: MainViewModel
 
     lateinit var adapter: ProductAdapter
     private val products: ArrayList<Product> = ArrayList()
@@ -37,6 +39,9 @@ class ListProductFragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(callBack)
+
+        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
     }
 
     override fun onCreateView(
@@ -84,7 +89,7 @@ class ListProductFragment : Fragment() {
                     adapter.notifyItemChanged(position)
                 }
 
-                adapter.setOnItemClickListener {
+                adapter.onClickViewMainListener {
                     val isManger = arguments?.getBoolean(HomeFragment.MANAGER) ?: false
                     if (isManger) {
                         val product = orderList[it].product
@@ -96,6 +101,7 @@ class ListProductFragment : Fragment() {
                         }
                         findNavController().navigate(R.id.action_listProductFragment_to_newProductFragment, bundle)
                     }
+
                 }
             }
 
@@ -121,7 +127,7 @@ class ListProductFragment : Fragment() {
                 val email: String = arguments?.getString(LoginFragment.EMAIL)!!
 
                 putString(CART, gson.toJson(carts))
-                putString(LoginFragment.EMAIL,email)
+                putString(LoginFragment.EMAIL, email)
             }
 
             findNavController().navigate(R.id.action_listProductFragment_to_cartFragment, bundle)

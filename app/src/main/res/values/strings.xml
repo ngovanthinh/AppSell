@@ -39,5 +39,10 @@
     <string name="transfer">Chuyển khoản</string>
     <string name="payment_message">Thanh toán thành công</string>
     <string name="order_manager">Quản lý đơn hàng</string>
+    <string name="vegetable">Rau củ quả</string>
+    <string name="packaged_food">Thực phẩm đóng gói</string>
+    <string name="fresh_meat">Thịt tươi sống</string>
+    <string name="type_product">Loại hàng hóa: </string>
+    <string name="different">Loại khác</string>
 
 </resources>

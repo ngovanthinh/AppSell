@@ -5,6 +5,7 @@ class Product(
     var cost : Long,
     var description : String,
     var key: String,
+    var type: String,
 ){
-    constructor(): this("",0,"","")
+    constructor(): this("",0,"","","")
 }
