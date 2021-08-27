@@ -134,6 +134,7 @@
                 tools:layout_editor_absoluteX="0dp" />
 
             <TextView
+                android:id="@+id/txt_reset_password"
                 style="@style/TextPrimaryMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

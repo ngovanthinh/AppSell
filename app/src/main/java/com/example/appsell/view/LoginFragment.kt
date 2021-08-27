@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.util.Util
 import com.example.appsell.R
 import com.example.appsell.base.Until
 import com.google.firebase.auth.FirebaseAuth
@@ -51,6 +52,22 @@ class LoginFragment : Fragment() {
         img_eye.setOnClickListener {
             isShowPass = !isShowPass
             Until.showHidePassword(isShowPass, edt_password, img_eye)
+        }
+
+        txt_reset_password.setOnClickListener {
+            val email = edt_email.text.toString().trim()
+            if (email.isEmpty()) {
+                Until.message("Vui lòng nhập email bạn muốn khôi phục mật khẩu", requireActivity())
+            } else {
+                auth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            Until.message("Chúng tôi đã trả mật khẩu trong email đăng ký!", requireActivity())
+                        } else {
+                            Until.message("Failed to send reset email!", requireActivity())
+                        }
+                    }
+            }
         }
 
     }

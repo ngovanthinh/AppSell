@@ -249,7 +249,8 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/lytCart"
+                    android:visibility="gone"
+                    android:id="@+id/lytOrderManager"
                     style="@style/Widget.MaterialComponents.CardView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -264,8 +265,7 @@
                     app:layout_constraintTop_toBottomOf="@id/lytProfile">
 
                     <LinearLayout
-                        android:visibility="gone"
-                        android:id="@+id/btnOpenCart"
+                        android:id="@+id/btnOpeOrderManager"
                         android:layout_width="@dimen/_128sdp"
                         android:layout_height="@dimen/_72sdp"
                         android:background="?attr/selectableItemBackground"
@@ -284,7 +284,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_8sdp"
-                            android:text="@string/cart"
+                            android:text="@string/order_manager"
                             android:textColor="@color/textColorPrimary" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>

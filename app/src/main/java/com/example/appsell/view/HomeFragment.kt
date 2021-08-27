@@ -92,12 +92,13 @@ class HomeFragment : Fragment() {
         btn_list_product.setOnClickListener {
             val bundle = Bundle().apply {
                 putBoolean(MANAGER, isManager)
+                putString(LoginFragment.EMAIL, arguments?.getString(LoginFragment.EMAIL))
             }
             findNavController().navigate(R.id.action_homeFragment_to_listProductFragment, bundle)
         }
 
-        btnOpenCart.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_cartFragment)
+        btnOpeOrderManager.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_orderManagerFragment)
         }
 
         btnOpenProfile.setOnClickListener {
@@ -128,7 +129,7 @@ class HomeFragment : Fragment() {
         const val MANAGER: String = "is_manager"
     }
 
-    private fun updateProfile (){
+    private fun updateProfile() {
         val email: String = arguments?.getString(LoginFragment.EMAIL)!!
         val allPost = Firebase.database.reference.child("username").child(email)
 
@@ -137,7 +138,15 @@ class HomeFragment : Fragment() {
                 val profile: Profile? = snapshot.getValue(Profile::class.java)
                 isManager = profile?.isManager ?: false
                 if (lytNewProduct != null) {
-                    lytNewProduct.isVisible = profile?.isManager!!
+
+                    if (profile?.isManager!!) {
+                        lytNewProduct.visibility = View.VISIBLE
+                        lytOrderManager.visibility = View.VISIBLE
+                    } else {
+                        lytNewProduct.visibility = View.INVISIBLE
+                        lytOrderManager.visibility = View.GONE
+                    }
+
                     txt_user_name.text = profile.userName
                 }
             }

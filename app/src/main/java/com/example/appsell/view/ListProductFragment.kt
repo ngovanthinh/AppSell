@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.appsell.R
 import com.example.appsell.adapter.ProductAdapter
+import com.example.appsell.base.Constant
 import com.example.appsell.model.Order
 import com.example.appsell.model.Product
 import com.google.firebase.database.DataSnapshot
@@ -117,7 +118,10 @@ class ListProductFragment : Fragment() {
                     }
                 }
 
+                val email: String = arguments?.getString(LoginFragment.EMAIL)!!
+
                 putString(CART, gson.toJson(carts))
+                putString(LoginFragment.EMAIL,email)
             }
 
             findNavController().navigate(R.id.action_listProductFragment_to_cartFragment, bundle)

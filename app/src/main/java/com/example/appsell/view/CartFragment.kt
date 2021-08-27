@@ -6,23 +6,36 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.appsell.R
 import com.example.appsell.adapter.ProductAdapter
+import com.example.appsell.base.Constant
 import com.example.appsell.base.Until
 import com.example.appsell.model.Order
+import com.example.appsell.model.Profile
+import com.example.appsell.model.Purchase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.fragment_cart.*
 import kotlinx.android.synthetic.main.fragment_cart.btn_back
 import kotlinx.android.synthetic.main.fragment_cart.list
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_list_product.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CartFragment : Fragment() {
-
+    var profile: Profile = Profile()
     lateinit var adapter: ProductAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +45,8 @@ class CartFragment : Fragment() {
                 parentFragment?.findNavController()?.popBackStack(R.id.homeFragment, false)
             }
         }
+
+        getProfile()
 
         requireActivity().onBackPressedDispatcher.addCallback(callBack)
     }
@@ -51,10 +66,10 @@ class CartFragment : Fragment() {
         val gson = Gson()
 
         val typeToken = object : TypeToken<ArrayList<Order>>() {}.type
-        val topic = gson.fromJson<ArrayList<Order>>(json, typeToken)
+        val orders = gson.fromJson<ArrayList<Order>>(json, typeToken)
 
         var totalCost: Int = 0
-        topic.forEach {
+        orders.forEach {
             totalCost += it.count * it.product?.cost?.toInt()!!
         }
 
@@ -69,7 +84,7 @@ class CartFragment : Fragment() {
             )
         )
 
-        adapter.submitList(topic, true)
+        adapter.submitList(orders, true)
 
         btn_back.setOnClickListener {
             findNavController().popBackStack(R.id.homeFragment, false)
@@ -80,10 +95,39 @@ class CartFragment : Fragment() {
             dialog.show(childFragmentManager, this.tag)
 
             dialog.setOnItemClickListener {
+                payment(orders, it)
+            }
+        }
+    }
+
+    private fun payment(orders: ArrayList<Order>, typePayment: String) {
+        val calendar = Calendar.getInstance()
+        val time: Long = calendar.time.time
+        val purchase = Purchase(time, profile, orders, Constant.ODER, typePayment)
+
+        FirebaseDatabase.getInstance().reference.child("purchase").child("" + time).setValue(purchase)
+            .addOnSuccessListener {
                 Until.message(requireContext().getString(R.string.payment_message), requireActivity())
                 findNavController().popBackStack(R.id.homeFragment, false)
             }
-        }
+            .addOnFailureListener {
+                Until.message(it.message ?: "Lỗi hệ thống vui lòng thử lại", requireActivity())
+            }
+    }
+
+    private fun getProfile() {
+        val email: String = arguments?.getString(LoginFragment.EMAIL)!!
+        val allPost = Firebase.database.reference.child("username").child(email)
+
+        allPost.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                profile = snapshot.getValue(Profile::class.java)!!
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
     }
 
 }

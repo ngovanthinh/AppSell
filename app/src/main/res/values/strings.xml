@@ -11,6 +11,7 @@
     <string name="register">Đăng ký</string>
     <string name="new_product">Thêm sản phẩm</string>
     <string name="list_products">Danh sách sản phẩm</string>
+    <string name="order_management">Quản lý đơn hàng</string>
     <string name="register_now">Đăng ký ngay</string>
     <string name="forgot_password">Quên mật khẩu?</string>
     <string name="you_are_have_not_account">Bạn chưa có tài khoản? </string>
@@ -37,5 +38,6 @@
     <string name="payment_on_delivery">Thanh toán khi nhận hàng</string>
     <string name="transfer">Chuyển khoản</string>
     <string name="payment_message">Thanh toán thành công</string>
+    <string name="order_manager">Quản lý đơn hàng</string>
 
 </resources>

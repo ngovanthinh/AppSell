@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
 import com.example.appsell.R
+import com.example.appsell.base.Constant
 import kotlinx.android.synthetic.main.dialog_payment.*
 
 class PaymentDialog : DialogFragment() {
 
-    private lateinit var onPayment: () -> Unit
+    private lateinit var onPayment: (type_payment: String) -> Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +45,18 @@ class PaymentDialog : DialogFragment() {
 
         txtPaymentSuccess.setOnClickListener {
             dismiss()
-            onPayment.invoke()
+            var typePayment: String = Constant.TYPE_CART
+            if (btnCash.isChecked) {
+                typePayment = Constant.TYPE_CART
+            }
+            if (btnDelivery.isChecked) {
+                typePayment = Constant.TYPE_RECEIPT
+            }
+
+            if (btnTransfer.isChecked) {
+                typePayment = Constant.TYPE_TRANSFER
+            }
+            onPayment.invoke(typePayment)
         }
     }
 
@@ -89,7 +101,7 @@ class PaymentDialog : DialogFragment() {
         btnTransfer.isChecked = true
     }
 
-    public fun setOnItemClickListener(onItemClicked: () -> Unit) {
+    fun setOnItemClickListener(onItemClicked: (type_payment: String) -> Unit) {
         this.onPayment = onItemClicked
     }
 

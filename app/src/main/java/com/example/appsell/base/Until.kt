@@ -7,6 +7,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import com.example.appsell.R
 import com.tapadoo.alerter.Alerter
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Until {
 
@@ -24,7 +26,17 @@ object Until {
     fun message(message: String, activity: Activity) {
         Alerter.create(activity)
             .setText(message)
+            .setDuration(1500)
             .setBackgroundColorRes(R.color.colorPrimary)
             .show()
     }
+
+    fun formatDate(time: Long): String {
+        val date = Date(time)
+        val format = SimpleDateFormat("yyyy/MM/dd HH:mm");
+        val dateFormat: String = format.format(date);
+        return dateFormat
+    }
+
+
 }
