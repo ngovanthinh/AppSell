@@ -30,6 +30,10 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        btn_back.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         data = ArrayList()
         data.add(MenuProduct(requireContext().getString(R.string.vegetable)) )
         data.add(MenuProduct(requireContext().getString(R.string.packaged_food)) )
