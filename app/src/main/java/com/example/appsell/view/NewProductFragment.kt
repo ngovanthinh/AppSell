@@ -103,7 +103,8 @@ class NewProductFragment : Fragment() {
 
         txt_delete.setOnClickListener {
             if (product != null) {
-                FirebaseDatabase.getInstance().reference.child("products").child(product!!.key).removeValue()
+                FirebaseDatabase.getInstance().reference.child("products").child(type).child(product!!.key)
+                    .removeValue()
                     .addOnSuccessListener {
                         findNavController().popBackStack()
                         Until.message("Xóa thành công", requireActivity())
