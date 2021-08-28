@@ -99,7 +99,9 @@ class HomeFragment : Fragment() {
                 putBoolean(MANAGER, isManager)
                 putString(LoginFragment.EMAIL, arguments?.getString(LoginFragment.EMAIL))
             }
-            findNavController().navigate(R.id.action_homeFragment_to_listProductFragment, bundle)
+//            findNavController().navigate(R.id.action_homeFragment_to_listProductFragment, bundle)
+
+            findNavController().navigate(R.id.action_homeFragment_to_productFragment, bundle)
         }
 
         btnOpeOrderManager.setOnClickListener {

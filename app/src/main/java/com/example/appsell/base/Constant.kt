@@ -15,5 +15,7 @@ class Constant {
         const val PRODUCT_PACKAGED: String = "packaged_food"
         const val PRODUCT_MEAT: String = "fresh_meat"
         const val PRODUCT_DIFFERENT: String = "different"
+
+        const val PRODUCT_TYPE : String="product_type"
     }
 }

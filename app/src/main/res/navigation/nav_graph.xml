@@ -42,13 +42,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_homeFragment_to_listProductFragment"
-            app:destination="@id/listProductFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+
+<!--        <action-->
+<!--            android:id="@+id/action_homeFragment_to_listProductFragment"-->
+<!--            app:destination="@id/listProductFragment"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:exitAnim="@anim/slide_out_left"-->
+<!--            app:popEnterAnim="@anim/slide_in_left"-->
+<!--            app:popExitAnim="@anim/slide_out_right" />-->
 
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
@@ -65,6 +66,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_productFragment"
+            app:destination="@id/productFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment
@@ -128,5 +137,15 @@
         android:name="com.example.appsell.view.OrderManagerFragment"
         android:label="OrderManagerFragment"
         tools:layout="@layout/fragment_order_manager" />
+
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="com.example.appsell.view.ProductFragment"
+        android:label="ProductFragment"
+        tools:layout="@layout/product_fragment">
+        <action
+            android:id="@+id/action_productFragment_to_listProductFragment"
+            app:destination="@id/listProductFragment" />
+    </fragment>
 
 </navigation>

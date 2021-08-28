@@ -12,4 +12,10 @@
     <color name="colorPrimary">#3d5afe</color>
     <color name="textColorUnselected">#9EAABB</color>
     <color name="main_bg_color">#EFF3F4</color>
+
+    <color name="azure">#007AFF</color>
+    <color name="customGreen">#06BD6D</color>
+    <color name="textColorRedCrimson">#ed1f1f</color>
+    <color name="textColorOrange">#FF6B00</color>
+    <color name="colorNegativeRemoved">#FE7A7A</color>
 </resources>

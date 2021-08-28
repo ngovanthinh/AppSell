@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.appsell.R
 import com.example.appsell.adapter.ProductAdapter
+import com.example.appsell.base.Constant
 import com.example.appsell.model.Order
 import com.example.appsell.model.Product
 import com.example.appsell.viewmodel.MainViewModel
@@ -55,7 +56,7 @@ class ListProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val allPost = Firebase.database.reference.child("products")
+        val allPost = Firebase.database.reference.child("products").child(arguments?.getString(Constant.PRODUCT_TYPE)!!)
 
         allPost.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

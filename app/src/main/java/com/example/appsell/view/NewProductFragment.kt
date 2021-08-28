@@ -134,7 +134,7 @@ class NewProductFragment : Fragment() {
 
             if (product != null) {
                 val productUpdate = Product(nameProduct, cost.toLong(), description, product!!.key, type)
-                reference.child("products").child(productUpdate.key).setValue(productUpdate)
+                reference.child("products").child(type).child(productUpdate.key).setValue(productUpdate)
                     .addOnSuccessListener {
                         findNavController().popBackStack()
                         Until.message("Cập nhật sản phẩm thành công", requireActivity())
@@ -146,7 +146,7 @@ class NewProductFragment : Fragment() {
             } else {
                 val key = database.reference.push().key!!
                 val productCreate = Product(nameProduct, cost.toLong(), description, key, type)
-                reference.child("products").child(key).setValue(productCreate)
+                reference.child("products").child(type).child(key).setValue(productCreate)
                     .addOnSuccessListener {
                         findNavController().popBackStack()
                         Until.message("Thêm mới sản phẩm thành công", requireActivity())

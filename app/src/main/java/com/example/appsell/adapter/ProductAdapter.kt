@@ -3,14 +3,21 @@ package com.example.appsell.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.example.appsell.R
 import com.example.appsell.base.BaseAdapter
 import com.example.appsell.model.Order
 import com.example.appsell.model.Product
 import kotlinx.android.synthetic.main.item_product.view.*
+import java.util.*
 
 class ProductAdapter(context: Context, val isCart: Boolean) : BaseAdapter<Order, ProductAdapter.ViewHolder>(context) {
+
+    private val bgThumb: Array<Int> = arrayOf(
+        R.color.customGreen, R.color.textColorOrange,
+        R.color.azure, R.color.colorNegativeRemoved, R.color.textColorRedCrimson
+    )
 
     private lateinit var onUpdateCount: (count: Int, position: Int) -> Unit
     private lateinit var onClickViewMain: (position: Int) -> Unit
@@ -63,7 +70,29 @@ class ProductAdapter(context: Context, val isCart: Boolean) : BaseAdapter<Order,
             itemView.view_main.setOnClickListener {
                 onClickViewMain.invoke(position)
             }
-        }
 
+            itemView.imgPart.setImageDrawable(
+                ContextCompat.getDrawable(
+                    context,
+                    bgThumb[position % bgThumb.size]
+                )
+            )
+
+
+            val partNameSplit = data.product?.productName?.split(" ")
+            var nameShort = String()
+            partNameSplit?.forEachIndexed { index, string ->
+                if (index >= 2) {
+                    return@forEachIndexed
+                }
+
+                if (string.trim().isNotEmpty()) {
+                    nameShort += string[0]
+                }
+            }
+
+            itemView.txtPartShort.text = nameShort.toUpperCase(Locale("en"))
+        }
     }
+
 }
