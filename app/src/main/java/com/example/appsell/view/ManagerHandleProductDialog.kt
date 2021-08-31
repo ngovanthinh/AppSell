@@ -37,6 +37,10 @@ class ManagerHandleProductDialog : BaseDialog() {
             onClickAccept.invoke(btn_accept_payment.isChecked)
             dismiss()
         }
+
+        btnClose.setOnClickListener {
+            dismiss()
+        }
     }
 
     private fun selectPayment() {

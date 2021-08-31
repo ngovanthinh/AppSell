@@ -103,6 +103,8 @@ class CartFragment : Fragment() {
             txt_total.text = "$totalCost VND"
         }
 
+        adapter.onClickViewMainListener {  }
+
         btn_back.setOnClickListener {
             findNavController().popBackStack(R.id.homeFragment, false)
         }
