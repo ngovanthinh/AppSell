@@ -40,6 +40,7 @@ class CartFragment : Fragment() {
     lateinit var viewModel: MainViewModel
     var profile: Profile = Profile()
     lateinit var adapter: ProductAdapter
+    var totalCost = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,12 +74,7 @@ class CartFragment : Fragment() {
 //        val typeToken = object : TypeToken<ArrayList<Order>>() {}.type
 //        val orders = gson.fromJson<ArrayList<Order>>(json, typeToken)
 
-        var totalCost = 0
-        viewModel.listProduct.forEach {
-            totalCost += it.count * it.product?.cost?.toInt()!!
-        }
-
-        txt_total.text = "$totalCost VND"
+        totalCost()
 
         adapter = ProductAdapter(requireContext(), true)
         list.adapter = adapter
@@ -95,12 +91,7 @@ class CartFragment : Fragment() {
             viewModel.listProduct[position].count = count
             adapter.notifyItemChanged(position)
 
-            totalCost = 0
-            viewModel.listProduct.forEach {
-                totalCost += it.count * it.product?.cost?.toInt()!!
-            }
-
-            txt_total.text = "$totalCost VND"
+            totalCost()
         }
 
         adapter.onClickViewMainListener {
@@ -109,6 +100,7 @@ class CartFragment : Fragment() {
             dialog.onClickDeleteListener {
                 viewModel.listProduct.removeAt(it)
                 adapter.notifyItemRemoved(it)
+                totalCost()
             }
         }
 
@@ -160,6 +152,15 @@ class CartFragment : Fragment() {
                 Until.hideLoading()
             }
         })
+    }
+
+    private fun totalCost() {
+        totalCost = 0
+        viewModel.listProduct.forEach {
+            totalCost += it.count * it.product?.cost?.toInt()!!
+        }
+
+        txt_total.text = "$totalCost VND"
     }
 
 }
