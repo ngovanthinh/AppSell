@@ -91,6 +91,18 @@ class CartFragment : Fragment() {
 
         adapter.submitList(viewModel.listProduct, true)
 
+        adapter.updateCountListener { count, position ->
+            viewModel.listProduct[position].count = count
+            adapter.notifyItemChanged(position)
+
+            totalCost = 0
+            viewModel.listProduct.forEach {
+                totalCost += it.count * it.product?.cost?.toInt()!!
+            }
+
+            txt_total.text = "$totalCost VND"
+        }
+
         btn_back.setOnClickListener {
             findNavController().popBackStack(R.id.homeFragment, false)
         }

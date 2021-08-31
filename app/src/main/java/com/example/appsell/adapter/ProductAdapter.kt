@@ -55,8 +55,8 @@ class ProductAdapter(context: Context, val isCart: Boolean) : BaseAdapter<Order,
                 txt_count.text = "" + data.count
             }
 
-            itemView.img_increase.isVisible = !isCart
-            itemView.img_reduction.isVisible = !isCart
+//            itemView.img_increase.isVisible = !isCart
+//            itemView.img_reduction.isVisible = !isCart
 
             itemView.img_increase.setOnClickListener {
                 val count: Int = itemView.txt_count.text.toString().toInt()
