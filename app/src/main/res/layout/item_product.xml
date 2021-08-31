@@ -95,6 +95,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:padding="@dimen/_2sdp"
             android:id="@+id/img_reduction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -107,7 +108,7 @@
         <TextView
             style="@style/TextPrimaryMedium"
             android:id="@+id/txt_count"
-            android:layout_width="@dimen/_25sdp"
+            android:layout_width="@dimen/_20sdp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="4dp"
@@ -116,6 +117,7 @@
             android:text="0" />
 
         <ImageView
+            android:padding="@dimen/_2sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:id="@+id/img_increase"
             android:layout_width="wrap_content"

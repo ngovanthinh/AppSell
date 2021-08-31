@@ -49,5 +49,7 @@
     <string name="different">Loại khác</string>
     <string name="accept_payment">Thanh toán và chuyển hàng</string>
     <string name="cancel_payment">Hủy bỏ đơn hàng</string>
+    <string name="delete_message">Bạn muốn xóa sản phẩm này?</string>
+    <string name="message">Thông báo</string>
 
 </resources>

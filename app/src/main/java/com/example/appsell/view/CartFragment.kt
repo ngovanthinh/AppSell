@@ -103,7 +103,14 @@ class CartFragment : Fragment() {
             txt_total.text = "$totalCost VND"
         }
 
-        adapter.onClickViewMainListener {  }
+        adapter.onClickViewMainListener {
+            val dialog = DeleteProductDialog()
+            dialog.show(childFragmentManager, this.tag)
+            dialog.onClickDeleteListener {
+                viewModel.listProduct.removeAt(it)
+                adapter.notifyItemRemoved(it)
+            }
+        }
 
         btn_back.setOnClickListener {
             findNavController().popBackStack(R.id.homeFragment, false)

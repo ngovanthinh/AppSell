@@ -76,6 +76,16 @@ class ListProductFragment : Fragment() {
                     orderList.add(Order(it, 0))
                 }
 
+                orderList.forEach default@ {orderDefault ->
+                    viewModel.listProduct.forEach listModel@{
+                        if (orderDefault.product?.key == it.product?.key) {
+                            orderDefault.count = it.count
+                            return@listModel
+                        }
+
+                    }
+                }
+
                 adapter = ProductAdapter(requireContext(), false)
                 list.adapter = adapter
                 list.addItemDecoration(
@@ -88,8 +98,20 @@ class ListProductFragment : Fragment() {
 
                 adapter.updateCountListener { count, position ->
                     orderList[position].count = count
-
                     adapter.notifyItemChanged(position)
+                    orderList.forEach default@ {orderDefault ->
+                        if (orderDefault.count > 0) {
+
+                            viewModel.listProduct.forEach listModel@ {
+                                if (orderDefault.product?.key == it.product?.key){
+                                    it.count  = orderDefault.count
+                                    return@default
+                                }
+                            }
+
+                            viewModel.listProduct.add(orderDefault)
+                        }
+                    }
                 }
 
                 adapter.onClickViewMainListener {
@@ -122,20 +144,7 @@ class ListProductFragment : Fragment() {
         txtOpenCart.setOnClickListener {
 //            val carts = ArrayList<Order>()
             val bundle = Bundle().apply {
-                val gson = Gson()
-                orderList.forEach default@ {orderDefault ->
-                    if (orderDefault.count > 0) {
-
-                        viewModel.listProduct.forEach listModel@ {
-                            if (orderDefault.product?.key == it.product?.key){
-                                it.count  = it.count + orderDefault.count
-                                return@default
-                            }
-                        }
-
-                        viewModel.listProduct.add(orderDefault)
-                    }
-                }
+                Gson()
 
                 val email: String = arguments?.getString(LoginFragment.EMAIL)!!
 //
