@@ -34,15 +34,20 @@
     <string name="view_cart">Xem đơn hàng</string>
     <string name="payment">Thanh toán</string>
     <string name="payment_function">Chọn thanh toán</string>
+    <string name="handle_product">Xử lý đơn hàng</string>
     <string name="cash">Tiền mặt</string>
     <string name="payment_on_delivery">Thanh toán khi nhận hàng</string>
     <string name="transfer">Chuyển khoản</string>
     <string name="payment_message">Thanh toán thành công</string>
+    <string name="accept_payment_message">Xác nhận đơn hàng thành công</string>
+    <string name="cancel_payment_message">Hủy đơn hàng thành công</string>
     <string name="order_manager">Quản lý đơn hàng</string>
     <string name="vegetable">Rau củ quả</string>
     <string name="packaged_food">Thực phẩm đóng gói</string>
     <string name="fresh_meat">Thịt tươi sống</string>
     <string name="type_product">Loại hàng hóa: </string>
     <string name="different">Loại khác</string>
+    <string name="accept_payment">Thanh toán và chuyển hàng</string>
+    <string name="cancel_payment">Hủy bỏ đơn hàng</string>
 
 </resources>

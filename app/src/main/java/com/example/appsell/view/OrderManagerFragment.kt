@@ -13,10 +13,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.appsell.R
 import com.example.appsell.adapter.PurchaseAdapter
+import com.example.appsell.base.Constant
 import com.example.appsell.base.Until
 import com.example.appsell.model.Purchase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -55,7 +57,9 @@ class OrderManagerFragment : Fragment() {
                 for (postSnapshot in snapshot.children) {
                     val product: Purchase? = postSnapshot.getValue(Purchase::class.java)
                     product?.let {
-                        purchases.add(it)
+                        if (it.statusOrder == Constant.ODER || it.statusOrder == Constant.SELL) {
+                            purchases.add(it)
+                        }
                     }
                 }
 
@@ -72,6 +76,12 @@ class OrderManagerFragment : Fragment() {
                 }
                 adapter.submitList(purchases, true)
                 Until.hideLoading()
+
+                adapter.setOnItemClickListener { position ->
+                    if (adapter.data[position].statusOrder == Constant.ODER) {
+                        updateStatusPayment(position)
+                    }
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -80,4 +90,47 @@ class OrderManagerFragment : Fragment() {
         })
 
     }
+
+    private fun updateStatusPayment(position: Int) {
+        val dialog = ManagerHandleProductDialog()
+        dialog.show(childFragmentManager, "")
+
+        dialog.handlePayment { isPayment ->
+            val data = adapter.data[position]
+
+            if (isPayment) {
+                data.statusOrder = Constant.SELL
+            } else {
+                data.statusOrder = Constant.CANCEL
+            }
+
+            Until.showLoading(requireActivity())
+
+            FirebaseDatabase.getInstance().reference.child("purchase").child("" + data.date).setValue(data)
+                .addOnSuccessListener {
+                    if (isPayment) {
+                        adapter.data[position].statusOrder = Constant.SELL
+                        adapter.notifyItemChanged(position)
+                        Until.message(
+                            requireContext().getString(R.string.accept_payment_message),
+                            requireActivity()
+                        )
+                    } else {
+                        adapter.notifyItemRemoved(position)
+                        purchases.removeAt(position)
+                        Until.message(
+                            requireContext().getString(R.string.cancel_payment_message),
+                            requireActivity()
+                        )
+                    }
+
+                    Until.hideLoading()
+                }
+                .addOnFailureListener {
+                    Until.message(it.message ?: "Lỗi hệ thống vui lòng thử lại", requireActivity())
+                    Until.hideLoading()
+                }
+        }
+    }
+
 }

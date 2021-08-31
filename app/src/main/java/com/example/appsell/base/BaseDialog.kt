@@ -8,7 +8,7 @@ import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import com.example.appsell.R
 
-class BaseDialog : DialogFragment() {
+open class BaseDialog : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
@@ -16,7 +16,7 @@ class BaseDialog : DialogFragment() {
         dialog?.window?.decorView?.setBackgroundResource(android.R.color.transparent)
         dialog?.window?.setBackgroundDrawableResource(R.drawable.bg_rounded)
 
-        val width = resources.getDimensionPixelSize(R.dimen._280sdp)
+        val width = resources.getDimensionPixelSize(R.dimen._260sdp)
         val height = WindowManager.LayoutParams.WRAP_CONTENT
         dialog?.window?.setLayout(width, height)
         dialog?.window?.setGravity(Gravity.CENTER)

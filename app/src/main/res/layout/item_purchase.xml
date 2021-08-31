@@ -58,6 +58,15 @@
                 android:gravity="start"
                 android:textColor="@color/colorPrimary" />
 
+            <TextView
+                android:layout_marginStart="8dp"
+                android:id="@+id/txtType"
+                style="@style/TextPrimaryMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:textColor="@color/colorPrimary" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
