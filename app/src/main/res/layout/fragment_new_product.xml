@@ -2,7 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_header"
@@ -37,6 +39,63 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <com.google.android.material.card.MaterialCardView
+        android:layout_margin="@dimen/_8sdp"
+        app:layout_constraintTop_toBottomOf="@id/layout_header"
+        android:id="@+id/view_product"
+        style="@style/Widget.MaterialComponents.CardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/_8sdp"
+        app:cardCornerRadius="@dimen/_2sdp"
+        app:cardElevation="@dimen/_4sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp">
+
+            <TextView
+                android:id="@+id/txt_image_description"
+                style="@style/TextPrimary"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:text="Thêm hình ảnh cho sản phẩm"/>
+
+            <ImageView
+                android:id="@+id/img_upload"
+                android:contentDescription="@null"
+                android:adjustViewBounds="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:padding="@dimen/_4sdp"
+                android:contentDescription="@null"
+                android:adjustViewBounds="true"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:id="@+id/btn_updateImage"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_image" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
     <TextView
         style="@style/TextPrimary"
         android:paddingBottom="12dp"
@@ -45,7 +104,7 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_16sdp"
         android:id="@+id/type_product"
-        app:layout_constraintTop_toBottomOf="@id/layout_header"
+        app:layout_constraintTop_toBottomOf="@id/view_product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/type_product"
@@ -97,6 +156,7 @@
         app:layout_constraintTop_toBottomOf="@id/edt_cost_product" />
 
     <LinearLayout
+        android:id="@+id/view_action"
         app:layout_constraintTop_toBottomOf="@id/edt_description_product"
         android:orientation="horizontal"
         android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.example.appsell.view
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
 import android.text.method.SingleLineTransformationMethod
@@ -9,10 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.util.Util
 import com.example.appsell.R
+import com.example.appsell.base.Constant
 import com.example.appsell.base.Until
 import com.google.firebase.auth.FirebaseAuth
 import com.tapadoo.alerter.Alerter
@@ -29,6 +32,14 @@ class LoginFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
+
+        val callBack: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(callBack)
     }
 
     override fun onCreateView(
@@ -81,6 +92,12 @@ class LoginFragment : Fragment() {
             auth.signInWithEmailAndPassword(email, pass)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
+                        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return@addOnCompleteListener
+                        with(sharedPref.edit()) {
+                            putString(Constant.USER_PROFILE, email)
+                            apply()
+                        }
+
                         val bundle = Bundle().apply {
                             putString(EMAIL, email.replace(".", ""))
                         }

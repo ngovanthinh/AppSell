@@ -1,5 +1,6 @@
 package com.example.appsell.view
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -10,15 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.appsell.R
-import com.example.appsell.adapter.ProductAdapter
 import com.example.appsell.adapter.SliderAdapter
-import com.example.appsell.model.Product
+import com.example.appsell.base.Constant
 import com.example.appsell.model.Profile
 import com.example.appsell.model.SliderItem
 import com.example.appsell.viewmodel.MainViewModel
@@ -31,7 +29,6 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_list_product.*
 
 class HomeFragment : Fragment() {
     lateinit var viewModel: MainViewModel
@@ -40,12 +37,14 @@ class HomeFragment : Fragment() {
     lateinit var adapter: SliderAdapter
     private val sliderItems: ArrayList<SliderItem> = ArrayList()
 
+    var email: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                findNavController().popBackStack(R.id.LoginFragment, false)
+
             }
         }
 
@@ -59,6 +58,14 @@ class HomeFragment : Fragment() {
         adapter = SliderAdapter(requireContext(), sliderItems)
 
         viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
+        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        sharedPref?.let {
+            email = sharedPref.getString(Constant.USER_PROFILE, null)
+            if (email.isNullOrEmpty()) {
+                email = arguments?.getString(LoginFragment.EMAIL)
+            }
+        }
     }
 
     override fun onCreateView(
@@ -83,7 +90,13 @@ class HomeFragment : Fragment() {
         }
 
         btn_logout.setOnClickListener {
-            findNavController().popBackStack(R.id.LoginFragment, false)
+            val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+            with(sharedPref!!.edit()) {
+                putString(Constant.USER_PROFILE, null)
+                apply()
+            }
+
+            findNavController().navigate(R.id.action_homeFragment_to_LoginFragment)
         }
 
         btn_new_product.setOnClickListener {
@@ -97,9 +110,8 @@ class HomeFragment : Fragment() {
         btn_list_product.setOnClickListener {
             val bundle = Bundle().apply {
                 putBoolean(MANAGER, isManager)
-                putString(LoginFragment.EMAIL, arguments?.getString(LoginFragment.EMAIL))
+                putString(LoginFragment.EMAIL, email)
             }
-//            findNavController().navigate(R.id.action_homeFragment_to_listProductFragment, bundle)
 
             findNavController().navigate(R.id.action_homeFragment_to_productFragment, bundle)
         }
@@ -109,12 +121,12 @@ class HomeFragment : Fragment() {
         }
 
         btnOpenProfile.setOnClickListener {
-            val email: String = arguments?.getString(LoginFragment.EMAIL)!!
-
-            val bundle = Bundle().apply {
-                putString(LoginFragment.EMAIL, email)
+            email?.let {
+                val bundle = Bundle().apply {
+                    putString(LoginFragment.EMAIL, it)
+                }
+                findNavController().navigate(R.id.action_homeFragment_to_profileFragment, bundle)
             }
-            findNavController().navigate(R.id.action_homeFragment_to_profileFragment, bundle)
         }
 
     }
@@ -129,16 +141,15 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        updateProfile()
+        getUserProfile()
     }
 
     companion object {
         const val MANAGER: String = "is_manager"
     }
 
-    private fun updateProfile() {
-        val email: String = arguments?.getString(LoginFragment.EMAIL)!!
-        val allPost = Firebase.database.reference.child("username").child(email)
+    private fun getUserProfile() {
+        val allPost = Firebase.database.reference.child("username").child(email!!.replace(".", ""))
 
         allPost.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

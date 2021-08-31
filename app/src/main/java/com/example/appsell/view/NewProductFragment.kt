@@ -1,31 +1,45 @@
 package com.example.appsell.view
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.GetContent
 import androidx.annotation.MenuRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.appsell.R
 import com.example.appsell.base.Constant
 import com.example.appsell.base.Until
 import com.example.appsell.model.Product
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.google.gson.Gson
-import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.fragment_new_product.*
-import java.util.*
+
 
 class NewProductFragment : Fragment() {
+    var storage: FirebaseStorage? = null
+    var storageReference: StorageReference? = null
+
     private var product: Product? = null
     private var type: String = Constant.PRODUCT_VEGETABLE
+    private var startForResult: ActivityResultLauncher<String>? = null
+    lateinit var uri: Uri
+    lateinit var path: String
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +51,17 @@ class NewProductFragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(callBack)
+
+        startForResult = registerForActivityResult(
+            GetContent()
+        ) { uri ->
+            this.uri = uri
+            uploadImage()
+        }
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage!!.reference;
+
     }
 
     override fun onCreateView(
@@ -61,6 +86,19 @@ class NewProductFragment : Fragment() {
                 txt_delete.isVisible = true
                 txt_create.text = "Cập nhật"
                 txt_header.text = "Sửa sản phẩm"
+                Glide.with(requireContext())
+                    .load(it.urlImage)
+                    .into(img_upload)
+            }
+
+            if (product != null) {
+                if (product!!.urlImage.isEmpty()) {
+                    txt_image_description.visibility = View.VISIBLE
+                } else {
+                    txt_image_description.visibility = View.GONE
+                }
+            } else {
+                txt_image_description.visibility = View.VISIBLE
             }
         }
 
@@ -119,6 +157,10 @@ class NewProductFragment : Fragment() {
         type_product.setOnClickListener { v: View ->
             showMenu(v, R.menu.menu)
         }
+
+        btn_updateImage.setOnClickListener {
+            chooseImage()
+        }
     }
 
     private fun createProduct() {
@@ -134,7 +176,9 @@ class NewProductFragment : Fragment() {
             val reference: DatabaseReference = database.reference
 
             if (product != null) {
-                val productUpdate = Product(nameProduct, cost.toLong(), description, product!!.key, type)
+                // sửa sản phẩm
+                val productUpdate =
+                    Product(nameProduct, cost.toLong(), description, product!!.key, type, product!!.urlImage)
                 reference.child("products").child(type).child(productUpdate.key).setValue(productUpdate)
                     .addOnSuccessListener {
                         findNavController().popBackStack()
@@ -145,8 +189,9 @@ class NewProductFragment : Fragment() {
                     }
 
             } else {
+                // Tạo mới sản phẩm
                 val key = database.reference.push().key!!
-                val productCreate = Product(nameProduct, cost.toLong(), description, key, type)
+                val productCreate = Product(nameProduct, cost.toLong(), description, key, type, path)
                 reference.child("products").child(type).child(key).setValue(productCreate)
                     .addOnSuccessListener {
                         findNavController().popBackStack()
@@ -194,6 +239,49 @@ class NewProductFragment : Fragment() {
         }
 
         popup.show()
+    }
+
+    private fun uploadImage() {
+        var uploadTask: UploadTask
+        val storageReference: StorageReference = FirebaseStorage.getInstance().getReference("profile_manager")
+        val local: StorageReference = storageReference.child("" + System.currentTimeMillis() + "." + getFile(uri))
+        uploadTask = local.putFile(uri)
+
+        uploadTask.continueWithTask { p0 ->
+            if (!p0.isSuccessful) {
+                Until.message(p0.exception?.message ?: "Lỗi hệ thống vui lòng thử lại", requireActivity())
+            }
+            local.downloadUrl
+        }.addOnCompleteListener { value ->
+            if (value.isSuccessful) {
+                try {
+                    path = value.result.toString()
+                    Glide.with(requireActivity())
+                        .load(value.result)
+                        .apply(RequestOptions())
+                        .fitCenter()
+                        .into(img_upload)
+
+                    product?.let {
+                        product!!.urlImage = value.result.toString()
+                    }
+
+                    txt_image_description.visibility = View.GONE
+                } catch (e: Exception) {
+                    Until.message(e.message ?: "Lỗi hệ thống vui lòng thử lại", requireActivity())
+                }
+            }
+        }
+    }
+
+    private fun getFile(uri: Uri): String {
+        val contentResolver: ContentResolver = requireActivity().contentResolver
+        val mimeTypeMap: MimeTypeMap = MimeTypeMap.getSingleton()
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri))!!
+    }
+
+    private fun chooseImage() {
+        startForResult?.launch("image/*")
     }
 
 }

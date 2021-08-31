@@ -72,7 +72,7 @@ class ProfileFragment : Fragment() {
 
     private fun getProfile() {
         val email: String = arguments?.getString(LoginFragment.EMAIL)!!
-        val allPost = Firebase.database.reference.child("username").child(email)
+        val allPost = Firebase.database.reference.child("username").child(email.replace(".",""))
 
         allPost.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

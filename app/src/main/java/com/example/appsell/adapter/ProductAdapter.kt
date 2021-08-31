@@ -5,10 +5,13 @@ import android.content.Context
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.appsell.R
 import com.example.appsell.base.BaseAdapter
 import com.example.appsell.model.Order
 import com.example.appsell.model.Product
+import kotlinx.android.synthetic.main.fragment_new_product.*
 import kotlinx.android.synthetic.main.item_product.view.*
 import java.util.*
 
@@ -71,27 +74,35 @@ class ProductAdapter(context: Context, val isCart: Boolean) : BaseAdapter<Order,
                 onClickViewMain.invoke(position)
             }
 
-            itemView.imgPart.setImageDrawable(
-                ContextCompat.getDrawable(
-                    context,
-                    bgThumb[position % bgThumb.size]
+            if (!data.product?.urlImage.isNullOrEmpty()) {
+                Glide.with(context)
+                    .load(data.product?.urlImage)
+                    .apply(RequestOptions())
+                    .fitCenter()
+                    .into(itemView.imgPart)
+            } else {
+                itemView.imgPart.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        context,
+                        bgThumb[position % bgThumb.size]
+                    )
                 )
-            )
 
+                val partNameSplit = data.product?.productName?.split(" ")
+                var nameShort = String()
+                partNameSplit?.forEachIndexed { index, string ->
+                    if (index >= 2) {
+                        return@forEachIndexed
+                    }
 
-            val partNameSplit = data.product?.productName?.split(" ")
-            var nameShort = String()
-            partNameSplit?.forEachIndexed { index, string ->
-                if (index >= 2) {
-                    return@forEachIndexed
+                    if (string.trim().isNotEmpty()) {
+                        nameShort += string[0]
+                    }
                 }
 
-                if (string.trim().isNotEmpty()) {
-                    nameShort += string[0]
-                }
+                itemView.txtPartShort.text = nameShort.toUpperCase(Locale("en"))
             }
 
-            itemView.txtPartShort.text = nameShort.toUpperCase(Locale("en"))
         }
     }
 
