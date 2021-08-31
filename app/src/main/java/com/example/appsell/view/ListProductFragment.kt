@@ -116,18 +116,26 @@ class ListProductFragment : Fragment() {
         }
 
         txtOpenCart.setOnClickListener {
-            val carts = ArrayList<Order>()
+//            val carts = ArrayList<Order>()
             val bundle = Bundle().apply {
                 val gson = Gson()
-                orderList.forEach {
-                    if (it.count > 0) {
-                        carts.add(it)
+                orderList.forEach default@ {orderDefault ->
+                    if (orderDefault.count > 0) {
+
+                        viewModel.listProduct.forEach listModel@ {
+                            if (orderDefault.product?.key == it.product?.key){
+                                it.count  = it.count + orderDefault.count
+                                return@default
+                            }
+                        }
+
+                        viewModel.listProduct.add(orderDefault)
                     }
                 }
 
                 val email: String = arguments?.getString(LoginFragment.EMAIL)!!
-
-                putString(CART, gson.toJson(carts))
+//
+//                putString(CART, gson.toJson(viewModel.listProduct))
                 putString(LoginFragment.EMAIL, email)
             }
 

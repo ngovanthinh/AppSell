@@ -129,6 +129,14 @@ class HomeFragment : Fragment() {
             }
         }
 
+        btnOpenCart.setOnClickListener {
+            val bundle = Bundle().apply {
+                putBoolean(MANAGER, isManager)
+                putString(LoginFragment.EMAIL, email)
+            }
+            findNavController().navigate(R.id.action_homeFragment_to_cartFragment, bundle)
+        }
+
     }
 
     private fun makeCall(number: String) {
@@ -161,7 +169,7 @@ class HomeFragment : Fragment() {
                         lytNewProduct.visibility = View.VISIBLE
                         lytOrderManager.visibility = View.VISIBLE
                     } else {
-                        lytNewProduct.visibility = View.INVISIBLE
+                        lytNewProduct.visibility = View.GONE
                         lytOrderManager.visibility = View.GONE
                     }
 

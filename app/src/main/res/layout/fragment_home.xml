@@ -181,9 +181,8 @@
                     android:layout_marginBottom="@dimen/_16sdp"
                     app:cardCornerRadius="@dimen/_8sdp"
                     app:cardElevation="@dimen/_4sdp"
-                    app:layout_constraintEnd_toStartOf="@id/lytNewProduct"
                     app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/lytListProduct"
                     app:layout_constraintTop_toBottomOf="@id/lytListProduct">
 
                     <LinearLayout
@@ -216,12 +215,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_16sdp"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     app:cardCornerRadius="@dimen/_8sdp"
                     app:cardElevation="@dimen/_4sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/lytProfile"
-                    app:layout_constraintTop_toTopOf="@id/lytProfile">
+                    app:layout_constraintEnd_toEndOf="@id/lytCart"
+                    app:layout_constraintTop_toTopOf="@id/lytOrderManager">
 
                     <LinearLayout
                         android:id="@+id/btn_new_product"
@@ -249,6 +247,44 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/lytCart"
+                    style="@style/Widget.MaterialComponents.CardView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_16sdp"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    app:cardElevation="@dimen/_4sdp"
+                    android:layout_marginEnd="0dp"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintEnd_toEndOf="@id/lytLogout"
+                    app:layout_constraintTop_toTopOf="@id/lytProfile">
+
+                    <LinearLayout
+                        android:id="@+id/btnOpenCart"
+                        android:layout_width="@dimen/_128sdp"
+                        android:layout_height="@dimen/_72sdp"
+                        android:background="?attr/selectableItemBackground"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="@dimen/_36sdp"
+                            android:layout_height="@dimen/_36sdp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_carts" />
+
+                        <TextView
+                            style="@style/TextPrimaryMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:text="@string/cart"
+                            android:textColor="@color/textColorPrimary" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
                     android:visibility="gone"
                     android:id="@+id/lytOrderManager"
                     style="@style/Widget.MaterialComponents.CardView"
@@ -258,10 +294,8 @@
                     android:layout_marginBottom="@dimen/_16sdp"
                     app:cardCornerRadius="@dimen/_8sdp"
                     app:cardElevation="@dimen/_4sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/lytNewProduct"
                     app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/lytProfile"
                     app:layout_constraintTop_toBottomOf="@id/lytProfile">
 
                     <LinearLayout
@@ -277,7 +311,7 @@
                             android:layout_width="@dimen/_36sdp"
                             android:layout_height="@dimen/_36sdp"
                             android:contentDescription="@null"
-                            android:src="@drawable/ic_carts" />
+                            android:src="@drawable/ic_manager_product" />
 
                         <TextView
                             style="@style/TextPrimaryMedium"

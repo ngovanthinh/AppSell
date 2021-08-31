@@ -55,8 +55,10 @@ class NewProductFragment : Fragment() {
         startForResult = registerForActivityResult(
             GetContent()
         ) { uri ->
-            this.uri = uri
-            uploadImage()
+            uri?.let {
+                this.uri = it
+                uploadImage()
+            }
         }
 
         storage = FirebaseStorage.getInstance();
