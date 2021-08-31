@@ -72,12 +72,14 @@ class RegisterFragment : Fragment() {
         if (((pass != passAgain) || pass.length < 6 || pass.isEmpty() || passAgain.isEmpty() || userName.isEmpty())) {
             Until.message("Vui lòng nhập đủ thông tin", requireActivity())
         } else {
+            Until.showLoading(requireActivity())
             auth.createUserWithEmailAndPassword(email, pass)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         updateProfile(email, userName)
                     } else {
                         Until.message(it.exception?.message ?: "Lỗi hệ thống vui lòng thử lại", requireActivity())
+                        Until.hideLoading()
                     }
                 }
         }
@@ -90,6 +92,7 @@ class RegisterFragment : Fragment() {
 
         reference.child("username").child(email.replace(".", "")).setValue(profile)
             .addOnSuccessListener {
+                Until.hideLoading()
                 val bundle = Bundle().apply {
                     putString(LoginFragment.EMAIL, email.replace(".", ""))
                 }
@@ -97,6 +100,7 @@ class RegisterFragment : Fragment() {
                 Until.message("Đăng ký thành công", requireActivity())
             }
             .addOnFailureListener {
+                Until.hideLoading()
                 Until.message(it.message ?: "Lỗi hệ thống vui lòng thử lại", requireActivity())
             }
     }

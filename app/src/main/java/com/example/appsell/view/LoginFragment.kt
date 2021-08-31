@@ -89,6 +89,7 @@ class LoginFragment : Fragment() {
         val pass = edt_password.text.toString().trim()
 
         if (email.isNotBlank() && pass.isNotBlank()) {
+            Until.showLoading(requireActivity())
             auth.signInWithEmailAndPassword(email, pass)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
@@ -109,6 +110,8 @@ class LoginFragment : Fragment() {
                     } else {
                         message(it.exception?.message ?: "Login fail")
                     }
+
+                    Until.hideLoading()
                 }
         } else {
             message("Vui lòng nhập mật khẩu và email")

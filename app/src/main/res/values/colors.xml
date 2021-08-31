@@ -18,4 +18,5 @@
     <color name="textColorRedCrimson">#ed1f1f</color>
     <color name="textColorOrange">#FF6B00</color>
     <color name="colorNegativeRemoved">#FE7A7A</color>
+    <color name="black60">#99000000</color>
 </resources>

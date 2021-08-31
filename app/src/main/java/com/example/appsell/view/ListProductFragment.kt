@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.appsell.R
 import com.example.appsell.adapter.ProductAdapter
 import com.example.appsell.base.Constant
+import com.example.appsell.base.Until
 import com.example.appsell.model.Order
 import com.example.appsell.model.Product
 import com.example.appsell.viewmodel.MainViewModel
@@ -58,6 +59,7 @@ class ListProductFragment : Fragment() {
 
         val allPost = Firebase.database.reference.child("products").child(arguments?.getString(Constant.PRODUCT_TYPE)!!)
 
+        Until.showLoading(requireActivity())
         allPost.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 products.clear()
@@ -104,10 +106,12 @@ class ListProductFragment : Fragment() {
                     }
 
                 }
+
+                Until.hideLoading()
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                Until.hideLoading()
             }
         })
 

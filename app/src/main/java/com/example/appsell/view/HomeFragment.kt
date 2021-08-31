@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.appsell.R
 import com.example.appsell.adapter.SliderAdapter
 import com.example.appsell.base.Constant
+import com.example.appsell.base.Until
 import com.example.appsell.model.Profile
 import com.example.appsell.model.SliderItem
 import com.example.appsell.viewmodel.MainViewModel
@@ -159,6 +160,7 @@ class HomeFragment : Fragment() {
     private fun getUserProfile() {
         val allPost = Firebase.database.reference.child("username").child(email!!.replace(".", ""))
 
+        Until.showLoading(requireActivity())
         allPost.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val profile: Profile? = snapshot.getValue(Profile::class.java)
@@ -175,10 +177,11 @@ class HomeFragment : Fragment() {
 
                     txt_user_name.text = profile.userName
                 }
+                Until.hideLoading()
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                Until.hideLoading()
             }
         })
     }

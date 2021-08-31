@@ -34,6 +34,14 @@ class ProductFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        txtOpenCart.setOnClickListener {
+            val email: String = arguments?.getString(LoginFragment.EMAIL)!!
+            val bundle = Bundle().apply {
+                putString(LoginFragment.EMAIL, email)
+            }
+            findNavController().navigate(R.id.action_productFragment_to_cartFragment, bundle)
+        }
+
         data = ArrayList()
         data.add(MenuProduct(requireContext().getString(R.string.vegetable)) )
         data.add(MenuProduct(requireContext().getString(R.string.packaged_food)) )

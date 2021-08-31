@@ -67,13 +67,13 @@ class CartFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val json = arguments?.getString(ListProductFragment.CART)
-        val gson = Gson()
-
-        val typeToken = object : TypeToken<ArrayList<Order>>() {}.type
+//        val json = arguments?.getString(ListProductFragment.CART)
+//        val gson = Gson()
+//
+//        val typeToken = object : TypeToken<ArrayList<Order>>() {}.type
 //        val orders = gson.fromJson<ArrayList<Order>>(json, typeToken)
 
-        var totalCost: Int = 0
+        var totalCost = 0
         viewModel.listProduct.forEach {
             totalCost += it.count * it.product?.cost?.toInt()!!
         }
@@ -110,28 +110,33 @@ class CartFragment : Fragment() {
         val time: Long = calendar.time.time
         val purchase = Purchase(time, profile, orders, Constant.ODER, typePayment)
 
+        Until.showLoading(requireActivity())
         FirebaseDatabase.getInstance().reference.child("purchase").child("" + time).setValue(purchase)
             .addOnSuccessListener {
                 Until.message(requireContext().getString(R.string.payment_message), requireActivity())
                 findNavController().popBackStack(R.id.homeFragment, false)
                 viewModel.listProduct.clear()
+                Until.hideLoading()
             }
             .addOnFailureListener {
                 Until.message(it.message ?: "Lỗi hệ thống vui lòng thử lại", requireActivity())
+                Until.hideLoading()
             }
     }
 
     private fun getProfile() {
+        Until.showLoading(requireActivity())
         val email: String = arguments?.getString(LoginFragment.EMAIL)!!
         val allPost = Firebase.database.reference.child("username").child(email.replace(".", ""))
 
         allPost.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 profile = snapshot.getValue(Profile::class.java)!!
+                Until.hideLoading()
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                Until.hideLoading()
             }
         })
     }

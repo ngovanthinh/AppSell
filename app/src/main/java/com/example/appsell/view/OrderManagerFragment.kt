@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.appsell.R
 import com.example.appsell.adapter.PurchaseAdapter
+import com.example.appsell.base.Until
 import com.example.appsell.model.Purchase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -47,6 +48,7 @@ class OrderManagerFragment : Fragment() {
     private fun getOrderManager() {
         val allPost = Firebase.database.reference.child("purchase")
 
+        Until.showLoading(requireActivity())
         allPost.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 purchases.clear()
@@ -69,10 +71,11 @@ class OrderManagerFragment : Fragment() {
                     it.date
                 }
                 adapter.submitList(purchases, true)
+                Until.hideLoading()
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                Until.hideLoading()
             }
         })
 

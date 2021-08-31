@@ -39,7 +39,7 @@ class NewProductFragment : Fragment() {
     private var type: String = Constant.PRODUCT_VEGETABLE
     private var startForResult: ActivityResultLauncher<String>? = null
     lateinit var uri: Uri
-    lateinit var path: String
+    var path: String=""
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -174,6 +174,7 @@ class NewProductFragment : Fragment() {
             Until.message("Vui lòng nhập đủ các thông tin", requireActivity())
         } else {
 
+            Until.showLoading(requireActivity())
             val database: FirebaseDatabase = FirebaseDatabase.getInstance()
             val reference: DatabaseReference = database.reference
 
@@ -185,9 +186,11 @@ class NewProductFragment : Fragment() {
                     .addOnSuccessListener {
                         findNavController().popBackStack()
                         Until.message("Cập nhật sản phẩm thành công", requireActivity())
+                        Until.hideLoading()
                     }
                     .addOnFailureListener {
                         Until.message(it.message ?: "Lỗi hệ thống vui lòng thử lại", requireActivity())
+                        Until.hideLoading()
                     }
 
             } else {
@@ -196,10 +199,12 @@ class NewProductFragment : Fragment() {
                 val productCreate = Product(nameProduct, cost.toLong(), description, key, type, path)
                 reference.child("products").child(type).child(key).setValue(productCreate)
                     .addOnSuccessListener {
+                        Until.hideLoading()
                         findNavController().popBackStack()
                         Until.message("Thêm mới sản phẩm thành công", requireActivity())
                     }
                     .addOnFailureListener {
+                        Until.hideLoading()
                         Until.message(it.message ?: "Lỗi hệ thống vui lòng thử lại", requireActivity())
                     }
             }
@@ -244,6 +249,7 @@ class NewProductFragment : Fragment() {
     }
 
     private fun uploadImage() {
+        Until.showLoading(requireActivity())
         var uploadTask: UploadTask
         val storageReference: StorageReference = FirebaseStorage.getInstance().getReference("profile_manager")
         val local: StorageReference = storageReference.child("" + System.currentTimeMillis() + "." + getFile(uri))
@@ -253,6 +259,7 @@ class NewProductFragment : Fragment() {
             if (!p0.isSuccessful) {
                 Until.message(p0.exception?.message ?: "Lỗi hệ thống vui lòng thử lại", requireActivity())
             }
+            Until.hideLoading()
             local.downloadUrl
         }.addOnCompleteListener { value ->
             if (value.isSuccessful) {
@@ -272,6 +279,8 @@ class NewProductFragment : Fragment() {
                 } catch (e: Exception) {
                     Until.message(e.message ?: "Lỗi hệ thống vui lòng thử lại", requireActivity())
                 }
+
+                Until.hideLoading()
             }
         }
     }

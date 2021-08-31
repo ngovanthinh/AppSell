@@ -74,6 +74,7 @@ class ProfileFragment : Fragment() {
         val email: String = arguments?.getString(LoginFragment.EMAIL)!!
         val allPost = Firebase.database.reference.child("username").child(email.replace(".",""))
 
+        Until.showLoading(requireActivity())
         allPost.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val profile: Profile? = snapshot.getValue(Profile::class.java)
@@ -81,10 +82,11 @@ class ProfileFragment : Fragment() {
                 edt_date.setText(profile?.date)
                 edt_address.setText(profile?.address)
                 isManager = profile?.isManager!!
+                Until.hideLoading()
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                Until.hideLoading()
             }
         })
     }
