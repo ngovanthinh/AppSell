@@ -34,12 +34,13 @@ import kotlinx.android.synthetic.main.fragment_new_product.*
 class NewProductFragment : Fragment() {
     var storage: FirebaseStorage? = null
     var storageReference: StorageReference? = null
+    var isManager: Boolean = true
 
     private var product: Product? = null
     private var type: String = Constant.PRODUCT_VEGETABLE
     private var startForResult: ActivityResultLauncher<String>? = null
     lateinit var uri: Uri
-    var path: String=""
+    var path: String = ""
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +65,8 @@ class NewProductFragment : Fragment() {
         storage = FirebaseStorage.getInstance();
         storageReference = storage!!.reference;
 
+        isManager = arguments?.getBoolean(HomeFragment.MANAGER) ?: true
+
     }
 
     override fun onCreateView(
@@ -77,6 +80,18 @@ class NewProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val json = arguments?.getString(ListProductFragment.DATA)
+
+        edt_cost_product.isEnabled = isManager
+        edt_name_product.isEnabled = isManager
+        edt_description_product.isEnabled = isManager
+
+        if (isManager) {
+            btn_updateImage.visibility = View.VISIBLE
+            view_action.visibility = View.VISIBLE
+        } else {
+            btn_updateImage.visibility = View.GONE
+            view_action.visibility = View.GONE
+        }
 
         json?.apply {
             val gson = Gson()
@@ -94,7 +109,14 @@ class NewProductFragment : Fragment() {
             }
 
             if (product != null) {
+                if (!isManager){
+                    txt_header.text = "Thông tin sản phẩm"
+                }
+
                 if (product!!.urlImage.isEmpty()) {
+                    if (!isManager){
+                        txt_image_description.setText(R.string.picture_invisible)
+                    }
                     txt_image_description.visibility = View.VISIBLE
                 } else {
                     txt_image_description.visibility = View.GONE
@@ -157,7 +179,9 @@ class NewProductFragment : Fragment() {
         }
 
         type_product.setOnClickListener { v: View ->
-            showMenu(v, R.menu.menu)
+            if (isManager){
+                showMenu(v, R.menu.menu)
+            }
         }
 
         btn_updateImage.setOnClickListener {

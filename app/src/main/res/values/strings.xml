@@ -51,5 +51,7 @@
     <string name="cancel_payment">Hủy bỏ đơn hàng</string>
     <string name="delete_message">Bạn muốn xóa sản phẩm này?</string>
     <string name="message">Thông báo</string>
+    <string name="picture_visible">Thêm hình ảnh cho sản phẩm</string>
+    <string name="picture_invisible">Sản phẩm này hiện không có hình ảnh</string>
 
 </resources>

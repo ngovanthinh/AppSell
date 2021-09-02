@@ -76,7 +76,7 @@ class ListProductFragment : Fragment() {
                     orderList.add(Order(it, 0))
                 }
 
-                orderList.forEach default@ {orderDefault ->
+                orderList.forEach default@{ orderDefault ->
                     viewModel.listProduct.forEach listModel@{
                         if (orderDefault.product?.key == it.product?.key) {
                             orderDefault.count = it.count
@@ -99,12 +99,12 @@ class ListProductFragment : Fragment() {
                 adapter.updateCountListener { count, position ->
                     orderList[position].count = count
                     adapter.notifyItemChanged(position)
-                    orderList.forEach default@ {orderDefault ->
+                    orderList.forEach default@{ orderDefault ->
                         if (orderDefault.count > 0) {
 
-                            viewModel.listProduct.forEach listModel@ {
-                                if (orderDefault.product?.key == it.product?.key){
-                                    it.count  = orderDefault.count
+                            viewModel.listProduct.forEach listModel@{
+                                if (orderDefault.product?.key == it.product?.key) {
+                                    it.count = orderDefault.count
                                     return@default
                                 }
                             }
@@ -116,16 +116,17 @@ class ListProductFragment : Fragment() {
 
                 adapter.onClickViewMainListener {
                     val isManger = arguments?.getBoolean(HomeFragment.MANAGER) ?: false
-                    if (isManger) {
-                        val product = orderList[it].product
-                        val gson = Gson()
-                        val json = gson.toJson(product)
 
-                        val bundle = Bundle().apply {
-                            putString(DATA, json)
-                        }
-                        findNavController().navigate(R.id.action_listProductFragment_to_newProductFragment, bundle)
+                    val product = orderList[it].product
+                    val gson = Gson()
+                    val json = gson.toJson(product)
+
+                    val bundle = Bundle().apply {
+                        putBoolean(HomeFragment.MANAGER, isManger)
+                        putString(DATA, json)
                     }
+                    findNavController().navigate(R.id.action_listProductFragment_to_newProductFragment, bundle)
+
 
                 }
 

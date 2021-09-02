@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.7"
-                android:text="Thêm hình ảnh cho sản phẩm"/>
+                android:text="@string/picture_visible"/>
 
             <ImageView
                 android:id="@+id/img_upload"
@@ -124,6 +124,7 @@
         android:hint="@string/hint_name_product"
         android:inputType="textCapSentences|text"
         android:singleLine="true"
+        android:textColor="@drawable/color_edit_text_selector"
         app:layout_constraintTop_toBottomOf="@id/type_product" />
 
     <EditText
@@ -138,6 +139,7 @@
         android:hint="@string/hint_cost_product"
         android:inputType="numberDecimal"
         android:singleLine="true"
+        android:textColor="@drawable/color_edit_text_selector"
         app:layout_constraintTop_toBottomOf="@id/edt_name_product" />
 
 
@@ -153,6 +155,7 @@
         android:gravity="top"
         android:hint="@string/hint_description_product"
         android:inputType="textMultiLine|textCapSentences"
+        android:textColor="@drawable/color_edit_text_selector"
         app:layout_constraintTop_toBottomOf="@id/edt_cost_product" />
 
     <LinearLayout
